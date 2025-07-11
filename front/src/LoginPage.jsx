@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { motion as Motion } from 'framer-motion';
+import logo from './assets/logo_meal.png';
+import { pageFade, cardSlide, buttonMotion, fadeIn } from './authAnimations';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -19,14 +22,11 @@ export default function LoginPage() {
 
     try {
       const res = await axios.post('http://localhost:5000/api/auth/login', formData);
-
       const { token, user } = res.data;
 
-      // Save token and user info to localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
 
-      // Redirect based on role
       if (user.role === 'admin') {
         navigate('/admin/dashboard');
       } else {
@@ -40,21 +40,49 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="auth-container d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4 shadow-lg" style={{ width: '400px', borderRadius: '15px' }}>
+    <Motion.div
+      className="auth-container position-relative d-flex flex-column align-items-center justify-content-center vh-100"
+      style={{ background: 'linear-gradient(to right, #e8f5e9, #d0f0d0)' }}
+      {...pageFade}
+    >
+      {/* ✅ Logo outside the card, top-left */}
+      <img
+        src={logo}
+        alt="TailorMeal Logo"
+        style={{
+          position: 'absolute',
+          top: '20px',
+          left: '20px',
+          width: '120px',
+          height: 'auto',
+          zIndex: 10,
+        }}
+      />
+
+      {/* ✅ Login card */}
+      <Motion.div
+        className="card p-4 shadow-lg"
+        style={{
+          width: '100%',
+          maxWidth: '400px',
+          borderRadius: '15px',
+          border: '1px solid #a5d6a7',
+          backgroundColor: '#ffffff',
+        }}
+        {...cardSlide}
+      >
         <div className="text-center mb-4">
-          <h2 className="fw-bold">Welcome Back</h2>
+          <h2 className="fw-bold text-success">Welcome Back</h2>
           <p className="text-muted">Log in to continue to your account</p>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Email</label>
-            <input 
+            <input
               type="email"
               name="email"
               className="form-control rounded-pill"
-              placeholder=""
               value={formData.email}
               onChange={handleChange}
               required
@@ -63,11 +91,10 @@ export default function LoginPage() {
 
           <div className="mb-4">
             <label className="form-label">Password</label>
-            <input 
+            <input
               type="password"
               name="password"
               className="form-control rounded-pill"
-              placeholder=""
               value={formData.password}
               onChange={handleChange}
               required
@@ -75,27 +102,33 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <div className="alert alert-danger text-center py-2">{error}</div>
+            <Motion.div
+              className="alert alert-danger text-center py-2"
+              {...fadeIn}
+            >
+              {error}
+            </Motion.div>
           )}
 
-          <button
+          <Motion.button
             type="submit"
-            className="btn btn-primary w-100 rounded-pill py-2 mb-3"
+            className="btn btn-success w-100 rounded-pill py-2 mb-3"
             disabled={loading}
+            {...buttonMotion}
           >
             {loading ? 'Logging in...' : 'Login'}
-          </button>
+          </Motion.button>
 
           <div className="text-center mt-3">
             <p className="text-muted">
               Don't have an account?{' '}
-              <Link to="/signup" className="text-primary text-decoration-none">
+              <Link to="/signup" className="text-success text-decoration-none">
                 Sign up
               </Link>
             </p>
           </div>
         </form>
-      </div>
-    </div>
+      </Motion.div>
+    </Motion.div>
   );
 }
