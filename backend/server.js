@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
+import profileRoutes from './routes/profileRoutes.js';
 dotenv.config();
 
 const app = express();
@@ -10,9 +11,11 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api', profileRoutes);
 
 // Example protected and admin-only routes
 import { authenticateToken, authorizeAdmin } from './middleware/authMiddleware.js';
+//import { verifyToken, authorizeAdmin } from './middleware/authMiddleware.js';
 
 app.get('/api/protected', authenticateToken, (req, res) => {
   res.json({ message: `Welcome ${req.user.email}! You accessed a protected route.` });
