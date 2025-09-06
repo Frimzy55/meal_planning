@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
+//import mealPlanRoutes from "./routes/mealPlanRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api', profileRoutes);
 
+//app.use("/api/meal-plan", mealPlanRoutes);
 // Example protected and admin-only routes
 import { authenticateToken, authorizeAdmin } from './middleware/authMiddleware.js';
 //import { verifyToken, authorizeAdmin } from './middleware/authMiddleware.js';

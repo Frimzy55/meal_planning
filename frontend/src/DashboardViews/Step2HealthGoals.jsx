@@ -10,6 +10,8 @@ export default function Step2HealthGoals({ formData, handleChange, toggleCheckbo
           <MenuItem value="Lose weight">Lose weight</MenuItem>
           <MenuItem value="Maintain weight">Maintain weight</MenuItem>
           <MenuItem value="Gain weight">Gain weight</MenuItem>
+           <MenuItem value="Muscle Gain">Muscle Gain</MenuItem>
+            <MenuItem value="Budget-Friendly Nutrition">Budget-Friendly Nutrition</MenuItem>
         </Select>
       </FormControl>
       <FormControl fullWidth margin="normal">
@@ -23,7 +25,7 @@ export default function Step2HealthGoals({ formData, handleChange, toggleCheckbo
       </FormControl>
       <FormGroup>
         <Typography variant="subtitle1">Medical Conditions:</Typography>
-        {['Diabetes', 'Hypertension', 'High Cholesterol'].map(cond => (
+        {['Diabetes', 'Hypertension', 'High Cholesterol','obesity','none'].map(cond => (
           <FormControlLabel
             key={cond}
             control={<Checkbox checked={formData.medicalConditions.includes(cond)} onChange={() => toggleCheckbox('medicalConditions', cond)} />}

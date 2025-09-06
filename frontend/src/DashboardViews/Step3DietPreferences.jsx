@@ -10,7 +10,7 @@ export default function Step3DietPreferences({ formData, handleChange }) {
           <MenuItem value="Vegetarian">Vegetarian</MenuItem>
           <MenuItem value="Vegan">Vegan</MenuItem>
           <MenuItem value="Pescatarian">Pescatarian</MenuItem>
-          <MenuItem value="Omnivore">Omnivore</MenuItem>
+          <MenuItem value="Traditional">Traditional</MenuItem>
         </Select>
       </FormControl>
       <TextField fullWidth margin="normal" label="Cultural Preference" value={formData.culturalPreference} onChange={(e) => handleChange('culturalPreference', e.target.value)} />
