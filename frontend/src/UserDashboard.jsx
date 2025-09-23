@@ -92,10 +92,15 @@ export default function UserDashboard() {
              style={{ minHeight: '72px' }}>
           <h3 className="m-0 text-success fw-semibold">Nutrition Dashboard</h3>
           <div className="d-flex align-items-center">
-            <span className="me-3 text-dark fw-medium">Hello, {user?.firstName || 'User'}</span>
+            <span className="me-3 text-dark fw-medium">
+              Hello, {user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() : 'User'}
+            </span>
             <div className="bg-success rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
                  style={{ width: '40px', height: '40px', fontSize: '16px' }}>
-              {user?.firstName?.charAt(0).toUpperCase() || 'U'}
+              {user
+                ? (user.firstName?.charAt(0).toUpperCase() || '') +
+                  (user.lastName?.charAt(0).toUpperCase() || '')
+                : 'U'}
             </div>
           </div>
         </div>

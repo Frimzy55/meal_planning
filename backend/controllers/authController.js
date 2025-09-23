@@ -18,11 +18,17 @@ export const authController = {
   async signup(req, res) {
     try {
       const { firstName, lastName, email, password } = req.body;
-      const existingUser = await userModel.findByEmailOrIndex(email, firstName);
+
+      // Check if user already exists (by email or name)
+      //const existingUser = await userModel.findByEmailOrIndex(email, firstName);
+      const existingUser = await userModel.findByEmailOrIndex(email, firstName, lastName);
+
       if (existingUser) return res.status(409).json({ error: 'User already exists' });
 
+      // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
 
+      // Save user
       await userModel.create({
         firstName,
         lastName,
@@ -55,7 +61,8 @@ export const authController = {
         token,
         user: {
           id: user.id,
-          firstName: user.first_name,
+          firstName: user.first_name,   // ✅
+          lastName: user.last_name,     // ✅ include last name
           email: user.email,
           role: user.role
         }
@@ -66,4 +73,3 @@ export const authController = {
     }
   }
 };
-

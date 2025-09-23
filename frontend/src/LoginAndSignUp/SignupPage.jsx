@@ -31,6 +31,27 @@ export default function SignupPage() {
     e.preventDefault();
     setError('');
 
+    // Regex: only letters (uppercase, lowercase, spaces allowed)
+    const nameRegex = /^[A-Za-z\s]+$/;
+
+    // Regex: basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!nameRegex.test(formData.firstName.trim())) {
+      setError('First name should contain only letters and spaces.');
+      return;
+    }
+
+    if (!nameRegex.test(formData.lastName.trim())) {
+      setError('Last name should contain only letters and spaces.');
+      return;
+    }
+
+    if (!emailRegex.test(formData.email.trim())) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
     if (formData.password.trim() !== formData.confirmPassword.trim()) {
       setError("Passwords don't match!");
       return;

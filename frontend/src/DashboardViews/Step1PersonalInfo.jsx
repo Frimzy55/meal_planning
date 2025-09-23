@@ -4,49 +4,64 @@ import { TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/mater
 export default function Step1PersonalInfo({ formData, handleChange }) {
   const user = JSON.parse(localStorage.getItem('user'));
 
-  // Auto-fill only once when component mounts
   useEffect(() => {
     if (user?.id && !formData.id) {
       handleChange('id', user.id);
     }
-  }, [user, formData.id, handleChange]);
+
+    // ✅ Auto-fill full name using correct keys
+    if (user?.firstName && user?.lastName && !formData.fullName) {
+      handleChange('fullName', `${user.firstName} ${user.lastName}`);
+    }
+  }, [user, formData.id, formData.fullName, handleChange]);
+
+  // ✅ Helper to ensure only numbers are saved
+  const handleNumericChange = (field, value) => {
+    if (/^\d*$/.test(value)) {
+      handleChange(field, value);
+    }
+  };
 
   return (
     <>
       <h5 className="mb-3 text-success">1. Personal Info Section</h5>
 
-     {/* ✅ Auto-filled weight field with user.id */}
+      {/* hidden ID */}
       <TextField
-       type="hidden"
+        type="hidden"
         fullWidth
         margin="normal"
-        label="ID "
-        value={formData.id}
+        label="ID"
+        value={formData.id || ''}
         onChange={(e) => handleChange('id', e.target.value)}
       />
 
-
+      {/* ✅ Auto-filled full name (read-only) */}
       <TextField
         fullWidth
         margin="normal"
         label="Full Name"
-        value={formData.fullName}
-        onChange={(e) => handleChange('fullName', e.target.value)}
+        value={formData.fullName || ''}
+        InputProps={{
+          readOnly: true, // 🔒 user cannot edit
+        }}
       />
 
+      {/* ✅ Age (numbers only) */}
       <TextField
         fullWidth
         margin="normal"
         label="Age"
-        type="number"
-        value={formData.age}
-        onChange={(e) => handleChange('age', e.target.value)}
+        type="text"
+        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+        value={formData.age || ''}
+        onChange={(e) => handleNumericChange('age', e.target.value)}
       />
 
       <FormControl fullWidth margin="normal">
         <InputLabel>Gender</InputLabel>
         <Select
-          value={formData.gender}
+          value={formData.gender || ''}
           onChange={(e) => handleChange('gender', e.target.value)}
         >
           <MenuItem value="Male">Male</MenuItem>
@@ -55,24 +70,27 @@ export default function Step1PersonalInfo({ formData, handleChange }) {
         </Select>
       </FormControl>
 
+      {/* ✅ Height (numbers only) */}
       <TextField
         fullWidth
         margin="normal"
         label="Height (cm)"
-        value={formData.height}
-        onChange={(e) => handleChange('height', e.target.value)}
+        type="text"
+        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+        value={formData.height || ''}
+        onChange={(e) => handleNumericChange('height', e.target.value)}
       />
 
-
+      {/* ✅ Weight (numbers only) */}
       <TextField
         fullWidth
         margin="normal"
-        label="weight (cm)"
-        value={formData.weight}
-        onChange={(e) => handleChange('weight', e.target.value)}
+        label="Weight (kg)"
+        type="text"
+        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+        value={formData.weight || ''}
+        onChange={(e) => handleNumericChange('weight', e.target.value)}
       />
-
-      
     </>
   );
 }

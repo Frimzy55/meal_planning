@@ -9,17 +9,35 @@ export const userModel = {
     return result;
   },
 
-  async findByEmailOrIndex(email, firstName) {
+  async findByEmailOrIndex(email, firstName, lastName) {
     const [rows] = await pool.query(
-      'SELECT * FROM users WHERE email = ? OR first_name = ?',
-      [email, firstName]
+      `SELECT 
+         id, 
+         first_name,
+         last_name,
+         email, 
+         role, 
+         password 
+       FROM users 
+       WHERE email = ? OR first_name = ? OR last_name = ?`,
+      [email, firstName, lastName]
     );
     return rows[0];
   },
 
   async findByEmail(email) {
-    const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+    const [rows] = await pool.query(
+      `SELECT 
+         id, 
+         first_name,
+         last_name,
+         email, 
+         role, 
+         password 
+       FROM users 
+       WHERE email = ?`,
+      [email]
+    );
     return rows[0];
   }
 };
-
