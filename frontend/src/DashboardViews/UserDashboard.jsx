@@ -23,8 +23,8 @@ export default function UserDashboard() {
   const menuItems = [
     { name: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
     { name: "Profile & Preferences", icon: <ProfileIcon />, path: "/dashboard/profile" },
-    { name: "Meal Planner", icon: <MealPlannerIcon />, path: "/dashboard/planner" },
     { name: "Recommendations", icon: <RecommendationIcon />, path: "/dashboard/recommendations" },
+    { name: " Meal Planner", icon: <MealPlannerIcon />, path: "/dashboard/planner" },
     { name: "Nutrient Tracker", icon: <TrackerIcon />, path: "/dashboard/tracker" },
     { name: "Grocery List", icon: <GroceryIcon />, path: "/dashboard/grocery" },
     { name: "Customize Meals", icon: <SettingsIcon />, path: "/dashboard/customize" }

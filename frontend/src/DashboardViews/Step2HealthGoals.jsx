@@ -17,10 +17,10 @@ export default function Step2HealthGoals({ formData, handleChange, toggleCheckbo
       <FormControl fullWidth margin="normal">
         <InputLabel>Activity Level</InputLabel>
         <Select value={formData.activityLevel} onChange={(e) => handleChange('activityLevel', e.target.value)}>
-          <MenuItem value="Sedentary">Sedentary</MenuItem>
-          <MenuItem value="Lightly active">Lightly active</MenuItem>
-          <MenuItem value="Moderately active">Moderately active</MenuItem>
-          <MenuItem value="Very active">Very active</MenuItem>
+          <MenuItem value="Sedentary">Little or no exercise</MenuItem>
+          <MenuItem value="Lightly active">Light exercise or daily activity</MenuItem>
+          <MenuItem value="Moderately active">Exercise 3–5 days a week</MenuItem>
+          <MenuItem value="Very active">Intense daily training or very demanding wor</MenuItem>
         </Select>
       </FormControl>
       <FormGroup>

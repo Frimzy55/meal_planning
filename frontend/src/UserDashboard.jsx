@@ -4,7 +4,6 @@ import {
   Dashboard as DashboardIcon,
   Person as ProfileIcon,
   Restaurant as MealPlannerIcon,
-  EmojiFoodBeverage as RecommendationIcon,
   MonitorWeight as TrackerIcon,
   ListAlt as GroceryIcon,
   Settings as SettingsIcon,
@@ -23,12 +22,17 @@ export default function UserDashboard() {
   const menuItems = [
     { name: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
     { name: "Profile & Preferences", icon: <ProfileIcon />, path: "/dashboard/profile" },
-    { name: "Meal Planner", icon: <MealPlannerIcon />, path: "/dashboard/planner" },
-    { name: "Recommendations", icon: <RecommendationIcon />, path: "/dashboard/recommendations" },
+    { name: "Meal Suggestions", icon: <MealPlannerIcon />, path: "/dashboard/planner" },
     { name: "Nutrient Tracker", icon: <TrackerIcon />, path: "/dashboard/tracker" },
     { name: "Grocery List", icon: <GroceryIcon />, path: "/dashboard/grocery" },
     { name: "Customize Meals", icon: <SettingsIcon />, path: "/dashboard/customize" }
   ];
+
+  const fullName = user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() : 'User';
+  const initials = user
+    ? (user.firstName?.charAt(0).toUpperCase() || '') +
+      (user.lastName?.charAt(0).toUpperCase() || '')
+    : 'U';
 
   return (
     <div className="d-flex vh-100 overflow-hidden">
@@ -93,14 +97,11 @@ export default function UserDashboard() {
           <h3 className="m-0 text-success fw-semibold">Nutrition Dashboard</h3>
           <div className="d-flex align-items-center">
             <span className="me-3 text-dark fw-medium">
-              Hello, {user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() : 'User'}
+              👋 Welcome, {fullName}
             </span>
             <div className="bg-success rounded-circle d-flex align-items-center justify-content-center text-white fw-bold"
                  style={{ width: '40px', height: '40px', fontSize: '16px' }}>
-              {user
-                ? (user.firstName?.charAt(0).toUpperCase() || '') +
-                  (user.lastName?.charAt(0).toUpperCase() || '')
-                : 'U'}
+              {initials}
             </div>
           </div>
         </div>

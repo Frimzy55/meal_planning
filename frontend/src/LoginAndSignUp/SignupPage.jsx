@@ -38,12 +38,12 @@ export default function SignupPage() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!nameRegex.test(formData.firstName.trim())) {
-      setError('First name should contain only letters and spaces.');
+      setError('First name should contain only letters .');
       return;
     }
 
     if (!nameRegex.test(formData.lastName.trim())) {
-      setError('Last name should contain only letters and spaces.');
+      setError('Last name should contain only letters .');
       return;
     }
 

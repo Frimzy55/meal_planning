@@ -14,7 +14,7 @@ export default function ProfilePreferences() {
   const [formData, setFormData] = useState({
     fullName: '', age: '', gender: '', height: '', weight: '',
     goal: '', activityLevel: '', medicalConditions: [],
-    dietType: '', culturalPreference: '', religiousRestrictions: '', dislikedFoods: '',
+    dietType: '', allergies: '', religiousRestrictions: '', dislikedFoods: '',
     mealsPerDay: '', mealTimes: { breakfast: '', lunch: '', dinner: '' }
   });
 

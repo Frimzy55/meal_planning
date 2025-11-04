@@ -22,7 +22,7 @@ app.use("/api", profileRoutes);
 
 // ===== OPENAI CLIENT =====
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API
 });
 
 // ---------------------------
@@ -144,7 +144,7 @@ app.post("/generate-meal-plan", async (req, res) => {
   }
 
   try {
-    const mealsDB = await getMealsFromDB();
+    const mealsDB = await getMealsFromDB(); // Array of meals with calories
     const userPrefs = await getUserPreferences(user_id);
 
     if (!userPrefs) {
@@ -153,14 +153,41 @@ app.post("/generate-meal-plan", async (req, res) => {
 
     const mealPlan = await generateMealPlan(userPrefs, mealsDB);
 
-    // Transform AI output into the format your React expects
+    // Helper function to get meal info from DB
+    const getMealFromDB = (mealName) =>
+      mealsDB.find(m => m.name === mealName) || { calories: 0, protein: 0, carbs: 0, fat: 0 };
+
     const formattedPlan = mealPlan.map(day => ({
       day: day.day,
       meals: {
-        breakfast: { name: day.breakfast, calories: 0 },
-        lunch: { name: day.lunch, calories: 0 },
-        dinner: { name: day.dinner, calories: 0 },
-        snacks: { name: day.snack || day.snacks, calories: 0 }
+        breakfast: { 
+          name: day.breakfast, 
+          calories: getMealFromDB(day.breakfast).calories,
+          protein: getMealFromDB(day.breakfast).protein,
+          carbs: getMealFromDB(day.breakfast).carbs,
+          fat: getMealFromDB(day.breakfast).fat
+        },
+        lunch: { 
+          name: day.lunch, 
+          calories: getMealFromDB(day.lunch).calories,
+          protein: getMealFromDB(day.lunch).protein,
+          carbs: getMealFromDB(day.lunch).carbs,
+          fat: getMealFromDB(day.lunch).fat
+        },
+        dinner: { 
+          name: day.dinner, 
+          calories: getMealFromDB(day.dinner).calories,
+          protein: getMealFromDB(day.dinner).protein,
+          carbs: getMealFromDB(day.dinner).carbs,
+          fat: getMealFromDB(day.dinner).fat
+        },
+        snacks: { 
+          name: day.snack || day.snacks, 
+          calories: getMealFromDB(day.snack || day.snacks).calories,
+          protein: getMealFromDB(day.snack || day.snacks).protein,
+          carbs: getMealFromDB(day.snack || day.snacks).carbs,
+          fat: getMealFromDB(day.snack || day.snacks).fat
+        }
       }
     }));
 
@@ -168,11 +195,13 @@ app.post("/generate-meal-plan", async (req, res) => {
       plan: formattedPlan,
       dietType: userPrefs.diet_type
     });
+
   } catch (err) {
     console.error("Error generating meal plan:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
 
 // ---------------------------
 // Example protected route

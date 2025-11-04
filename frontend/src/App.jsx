@@ -13,12 +13,20 @@ import NutrientTracker from './DashboardViews/NutrientTracker';
 import GroceryList from './DashboardViews/GroceryList';
 import CustomizeMeals from './DashboardViews/CustomizeMeals';
 
-import ProtectedRoute from './ProtectedRoute'; // ✅ Import the wrapper
+import AdminHome from './AdminHome';
+import AdminManageUsers from './AdminManageUsers';
+import AdminSettings from './AdminSettings';
+import AdminManageMeals from './AdminManageMeals';
+
+import ProtectedRoute from './ProtectedRoute';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const userId = storedUser?.id;
+
   return (
     <BrowserRouter>
       <Routes>
@@ -27,25 +35,36 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
 
-        {/* Protected Admin Dashboard */}
-        <Route path="/admin/dashboard" element={
-          <ProtectedRoute>
-            <AdminDashboard />
-          </ProtectedRoute>
-        } />
+        {/* ✅ Admin Dashboard Routes */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminHome />} />
+          <Route path="users" element={<AdminManageUsers />} />
+          <Route path="settings" element={<AdminSettings />} />
+           <Route path="meals" element={<AdminManageMeals />} />
+        </Route>
 
-        {/* Protected User Dashboard and its child views */}
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <UserDashboard />
-          </ProtectedRoute>
-        }>
-          <Route index element={<DefaultDashboard />} />
+        {/* ✅ User Dashboard Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<DefaultDashboard userId={userId} />} />
           <Route path="profile" element={<ProfilePreferences />} />
-          <Route path="planner" element={<MealPlanner />} />
+          <Route path="planner" element={<MealPlanner userId={userId} />} />
           <Route path="recommendations" element={<Recommendations />} />
-          <Route path="tracker" element={<NutrientTracker />} />
-          <Route path="grocery" element={<GroceryList />} />
+          <Route path="tracker" element={<NutrientTracker userId={userId} />} />
+          <Route path="grocery" element={<GroceryList userId={userId} />} />
           <Route path="customize" element={<CustomizeMeals />} />
         </Route>
       </Routes>

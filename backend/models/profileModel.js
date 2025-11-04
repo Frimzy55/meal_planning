@@ -1,5 +1,7 @@
 import pool from '../config/db.js';
 
+
+
 export const saveProfile = (data, callback) => {
   const sql = `
     INSERT INTO profiles 
